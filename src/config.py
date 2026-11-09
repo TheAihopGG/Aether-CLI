@@ -1,7 +1,7 @@
 import platformdirs
 import tomllib
 import os
-from consts import BASE_DIR, DEFAULT_CONFIG
+from consts import BASE_DIR
 
 
 def load_config():
@@ -21,7 +21,10 @@ def load_config():
 
     if not _config_file.exists():
         with open(_config_file, "w") as file:
-            file.write(DEFAULT_CONFIG.format(_dirs.user_data_path / "database.db"))
+
+            file.write(f"""[db]
+path = '{_dirs.user_data_path / "database.db"}'
+""")
         os.chmod(_config_file, 0o700)
 
     return tomllib.load(open(_config_file, "rb"))
